@@ -1,0 +1,27 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Database (dibangun ulang)
+db/*.duckdb
+db/*.duckdb.wal
+
+# PDF besar (diunduh ulang oleh ingest)
+data/raw/*
+!data/raw/.gitkeep
+
+# Staging (dibangun ulang)
+data/staging/*
+!data/staging/.gitkeep
+
+# Kredensial
+.env
+*.key
+*credentials*.json
+.streamlit/secrets.toml
+
+# CATATAN: data/marts/*.parquet di-commit (kecil) agar dashboard cloud jalan.
+data/marts/*.csv
+reports/_*

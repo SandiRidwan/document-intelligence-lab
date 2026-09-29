@@ -1,0 +1,11 @@
+{
+  "total_indicators": 1392,
+  "gold_recall": 0.667,
+  "topic_consistency": 0.999,
+  "no_topic": 615,
+  "no_region": 543,
+  "no_topic_no_region": 0,
+  "noise_rate": 0.0,
+  "quality_tables": 1,
+  "tables_detected": 246
+}
