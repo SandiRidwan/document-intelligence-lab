@@ -7,7 +7,7 @@
 ![DuckDB](https://img.shields.io/badge/DuckDB-SQL-FFF000?style=for-the-badge&logo=duckdb&logoColor=black)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 
-### 🔗 [**Buka Demo →**](https://document-intelligence-lab.streamlit.app)
+### 🔗 [**Buka Demo →**](https://document-intelligence-lab-xbexkxq5vcxmnjx83xagxy.streamlit.app)
 
 </div>
 
