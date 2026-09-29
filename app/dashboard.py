@@ -153,7 +153,7 @@ with t1:
             st.caption("Tidak ada topik bernama untuk sunburst.")
     except Exception as _e:  # noqa: BLE001
         st.caption(f"sunburst tak tersedia ({_e}).")
-    INS.box("topic", st=st)
+    INS.box("echarts_sunburst", st=st)
 
 with t2:
     X.render("region", st=st)
@@ -186,7 +186,7 @@ with t3:
         {"name": "Tabel terdeteksi", "value": max(total_tbl, 1)},
         {"name": "Tabel berkualitas", "value": max(q_tbl, 1)},
     ], title="Tabel → berkualitas → terestrak", height=380)
-    INS.box("quality", st=st)
+    INS.box("echarts_funnel", st=st)
 
     X.render("validation", st=st)
     if val:

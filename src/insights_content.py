@@ -103,3 +103,52 @@ register(
         "kejujuran soal ukuran sampel validasi."),
     tingkat="tinggi",
 )
+
+
+# --------------------------------------------------------------------------
+# Chart ECharts (v2) — insight & rekomendasi.
+# --------------------------------------------------------------------------
+
+register(
+    "echarts_sunburst",
+    kesimpulan=(
+        "Sunburst merangkum sebaran indikator antar-topik dalam satu pandangan: "
+        "cincin luar = topik, luas = jumlah indikator. Distribusi timpang "
+        "(beberapa topik mendominasi) itu wajar pada laporan SDG — tetapi "
+        "menunjukkan di mana data paling padat vs paling tipis, sehingga "
+        "kekosongan topik langsung terlihat."),
+    rekomendasi=[
+        "Gunakan sebaran ini untuk menilai cakupan: topik dengan irisan tipis "
+        "berarti ekstraksi/pelaporan kurang lengkap.",
+        "Saat membandingkan antar-laporan, bandingkan bentuk sunburst — "
+        "pergeseran proporsi menandakan perubahan prioritas pelaporan.",
+        "Jangan anggap topik tipis sebagai 'tidak penting'; bisa jadi datanya "
+        "ada tapi belum terestrak.",
+    ],
+    risiko=(
+        "Menganggap sunburst sebagai proporsi 'pentingnya' topik adalah keliru — "
+        "ia mengukur JUMLAH INDIKATOR, bukan bobot kebijakan. Kesimpulan yang "
+        "salah arah bisa menyesatkan prioritas."),
+    tingkat="rendah",
+)
+
+register(
+    "echarts_funnel",
+    kesimpulan=(
+        "Funnel menelusuri penyusutan dari tabel terdeteksi → berkualitas → "
+        "indikator terestrak. Celah terbesar (biasanya 'tabel terdeteksi' → "
+        "'berkualitas') mengungkap di mana upaya ekstraksi paling banyak hilang. "
+        "Pada laporan PDF nyata, rasio tabel bersih bisa di bawah 1%."),
+    rekomendasi=[
+        "Fokuskan perbaikan parser pada tahap penyusutan terbesar, bukan merata "
+        "di semua tahap.",
+        "Untuk tabel kompleks (dua kolom/merge), pertimbangkan ekstraksi hibrida "
+        "(tabel + pola teks) alih-alih hanya pdfplumber.",
+        "Tambahkan validasi manual terjadwal pada indikator bernilai tinggi.",
+    ],
+    risiko=(
+        "Mengklaim 'data berhasil diekstrak' tanpa memperhatikan funnel berisiko "
+        "melaporkan angka dari tabel berkualitas rendah. Keputusan berbasis angka "
+        "yang belum diverifikasi bisa salah secara serius."),
+    tingkat="tinggi",
+)
