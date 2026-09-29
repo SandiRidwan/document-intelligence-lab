@@ -23,6 +23,7 @@ from config import COLORS as C, DB_FILE, MARTS, REPORTS  # noqa: E402
 import explanations as X  # noqa: E402
 import insights_content  # noqa: E402,F401
 import insight as INS  # noqa: E402
+import echarts_charts as EC  # noqa: E402  (funnel, sunburst)
 
 st.set_page_config(page_title="Document Intelligence Lab", page_icon="📄",
                    layout="wide")
@@ -131,6 +132,29 @@ with t1:
     st.plotly_chart(fig, use_container_width=True)
     INS.box("topic", st=st)
 
+    st.markdown("#### Komposisi topik (sunburst ECharts)")
+    st.caption("Sunburst memperlihatkan **hierarki topik** sekaligus bagian "
+               "terbesarnya dalam satu pandangan melingkar. Cincin luar = "
+               "sub-topik bila tersedia.")
+    try:
+        _tt = topic.copy()
+        # buang topik kosong / placeholder agar tidak mendominasi sunburst
+        _tt = _tt[~_tt["topic"].astype(str).str.strip().str.lower()
+                  .isin(["", "(tak ada topik)", "tak ada topik", "none", "nan",
+                         "unknown", "-"])]
+        _tt = _tt.nlargest(12, "n_indicators")
+        _root = {"name": "SDG Topics", "children": [
+            {"name": str(r.topic)[:24], "value": int(r.n_indicators)}
+            for r in _tt.itertuples()]}
+        if _root["children"]:
+            EC.sunburst([_root], title="Indikator per Topik (sunburst)",
+                        height=460)
+        else:
+            st.caption("Tidak ada topik bernama untuk sunburst.")
+    except Exception as _e:  # noqa: BLE001
+        st.caption(f"sunburst tak tersedia ({_e}).")
+    INS.box("topic", st=st)
+
 with t2:
     X.render("region", st=st)
     rr = region.sort_values("n_indicators", ascending=False).head(15)
@@ -151,6 +175,17 @@ with t3:
     style(fig, 360).update_layout(yaxis_title="jumlah", xaxis_title="")
     st.plotly_chart(fig, use_container_width=True)
     st.dataframe(summary, use_container_width=True, hide_index=True)
+    INS.box("quality", st=st)
+
+    st.markdown("#### Pipeline ekstraksi (funnel ECharts)")
+    st.caption("Funnel memperlihatkan **penyusutan bertahap**: dari tabel "
+               "terdeteksi → tabel berkualitas → indikator lolos validasi. "
+               "Celah terbesar adalah titik kerja perbaikan berikutnya.")
+    EC.funnel([
+        {"name": "Indikator terestrak", "value": max(total_ind, 1)},
+        {"name": "Tabel terdeteksi", "value": max(total_tbl, 1)},
+        {"name": "Tabel berkualitas", "value": max(q_tbl, 1)},
+    ], title="Tabel → berkualitas → terestrak", height=380)
     INS.box("quality", st=st)
 
     X.render("validation", st=st)
